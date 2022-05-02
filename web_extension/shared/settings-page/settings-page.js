@@ -30,7 +30,7 @@ export default class SettingsPage extends BaseComponent {
       input.addEventListener('change', inputEvent)
     }
 
-    this.shadowRoot.querySelector('#version').textContent = `Start.Photos ${Version.number}`
+    this.shadowRoot.querySelector('#version').textContent = Version.number
   }
 
   hideAndShowThings() {
