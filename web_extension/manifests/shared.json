@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "A Photographic Start",
+  "name": "Start.photos - A beautiful+sfw new tab page",
 
-  "description": "A SFW photo start page",
+  "description": "A simple and sfw photo start page",
 
   "icons": {
     "16": "button/camera.svg",

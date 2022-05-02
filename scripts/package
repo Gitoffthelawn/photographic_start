@@ -88,11 +88,3 @@ pushd web_extension > /dev/null
 zip -r -FS "../$release_path.zip" ./* > /dev/null
 popd > /dev/null
 echo "Built $release_path.zip"
-
-if [[ "$browser" = "chrome" ]]; then
-  echo "Packing chrome extension into web_extension.crx"
-  chrome_binary='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-  "$chrome_binary" --pack-extension=./web_extension
-  rm web_extension.pem
-  mv web_extension.crx $release_path.crx
-fi
