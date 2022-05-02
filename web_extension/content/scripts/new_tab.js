@@ -1,47 +1,28 @@
 'use strict';
 
 import Builder from '../../shared/lib/builder.js'
-import Storage from '../../shared/storage_manager.js'
 import StartPage from '../../shared/start-page/start-page.js'
 import SettingsPage from '../../shared/settings-page/settings-page.js'
-import ImageChooser from '../../shared/image_chooser.js'
 import Version from '../../shared/version.js'
 
-// Setup the event listener for when local storage is changed
-const display_options = Storage.display
-const chooser = new ImageChooser()
+// injects the start page
+const start_page = document.querySelector('body').appendChild(Builder.tag('start-page'))
 
-// Switches between images
-async function loadImage(historyOffset) {
-  await chooser.sortHistory()
-  let historical_image = await chooser.peekHistorical()
-
-  if (historical_image) {
-    // start_page.preloadHistory(historical_image)
-  }
-
-  start_page.image = info_box.image = await chooser.timeTravel(historyOffset)
-}
-
-// Listens for keypresses
+// Listens for keypresses to switch between images
 document.addEventListener('keydown',
   async function (e) {
     switch (e.code) {
       case "ArrowRight":
-        loadImage(1)
+        // loadImage(1)
+        start_page.navigate(1)
         break
       case "ArrowLeft":
-        loadImage(-1)
+        // loadImage(-1)
+        start_page.navigate(-1)
         break;
     }
   }
 );
-
-const start_page = document.querySelector('body').appendChild(Builder.tag('start-page'))
-
-chooser.choose().then(image => {
-  start_page.waitForReady(()=>{ start_page.image = image })
-})
 
 // Insert the version number
 document.querySelector('body').appendChild(

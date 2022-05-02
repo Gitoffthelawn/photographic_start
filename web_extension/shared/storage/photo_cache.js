@@ -17,6 +17,16 @@ export default class PhotoCache extends Sector {
     this.last_new_image = 0 // "early" epoch timestamp
     this.refresh_interval = "5s"
     this.depth = 3
+
+    this.imageAddedCallbacks = []
+  }
+
+  onImageAdded(callback) {
+    this.imageAddedCallbacks.push(callback)
+  }
+
+  #fireImageAddedCallbacks(photo) {
+    this.imageAddedCallbacks.forEach(callback => callback(photo))
   }
 
   get storedProperties() {
@@ -42,13 +52,16 @@ export default class PhotoCache extends Sector {
 
     photo.cached_at = (new Date()).toJSON()
 
+    this.#fireImageAddedCallbacks(photo)
     this.items.push(photo)
     this.write()
   }
 
   // Returns the oldest tracked cache item. If the refresh interval has elapsed
   // then the oldest item is discarded and the next is returned.
-  pop () {
+  //
+  // If the cache is empty then a new item is fetched from the randomizer.
+  async pop () {
     let item = this.items[0]
     const now = (new Date()).getTime()
 
@@ -59,7 +72,10 @@ export default class PhotoCache extends Sector {
       this.write()
     }
 
-    return item
+    if (item) return item
+
+    console.warn("Cache is empty, fetching new uncached item.")
+    return await PhotoRandomizer().pick()
   }
 
   // Returns the cache item at a given location. Pre-loads photos two items
@@ -71,7 +87,8 @@ export default class PhotoCache extends Sector {
   }
 
   // Tops up the cache to a given depth by fetching an image from the
-  // randomizer and adding it to the DOM.
+  // randomizer. In order for pre-chosen images to actually be cached they need
+  // to be added to the DOM by some other process.
   async topUp(depth = this.depth) {
     await this.ensureRead()
 
@@ -82,16 +99,7 @@ export default class PhotoCache extends Sector {
       let item = await PhotoRandomizer().pick()
 
       if (! item) continue
-
-      let img = Builder.img(item)
-      console.info(`Fetching ${item.url}`)
-
-      // document.querySelector('prefetch').appendChild(img)
-
-      img.onload = () => {
-        console.info(`Finished caching ${item.url}`)
-        this.push(item)
-      }
+      this.push(item)
     }
   }
 }
