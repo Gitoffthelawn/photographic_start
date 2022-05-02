@@ -3,30 +3,26 @@
 import Storage from './storage_manager.js';
 
 class PhotoFeed {
+  #fetched = false
+  #fetchingPromise = null
+
   constructor () {
-    this.fetched = false
     this.parsed_feed = null
-    this.fetching = null
+    this.#fetched = false
   }
 
-  async ensureFetched () {
-    if (! this.fetched) {
-      await this.startFetch()
-    }
+  async ensureFetched() {
+    if (this.fetched)
+      return true
 
-    this.fetched = true
+    if (this.fetchingPromise)
+      return this.fetchingPromise
+
+    this.fetchingPromise = this.#downloadFeed()
+    return this.fetchingPromise
   }
 
-  async /*private*/ startFetch () {
-    if (this.fetching) {
-      return this.fetching
-    }
-
-    this.fetching = this.downloadFeed()
-    return this.fetching
-  }
-
-  async /*private*/ downloadFeed () {
+  async #downloadFeed () {
     let result
     const feed_options = Storage.feed_options
     await feed_options.ensureRead()
@@ -35,14 +31,14 @@ class PhotoFeed {
     while (urls.length > 0) {
       const url = urls.shift()
       console.info(`Fetching feed data from ${url}.`)
-      result = await this.fetchFeed(url)
+      result = await this.#fetchFeed(url)
       if (result) break
     }
 
     this.parsed_feed = result
   }
 
-  async fetchFeed (url) {
+  async #fetchFeed (url) {
     if (typeof url == "undefined") return
 
     return fetch(

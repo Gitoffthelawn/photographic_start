@@ -2,7 +2,7 @@
 
 import BaseComponent from '../lib/base-component.js'
 import Builder from '../lib/builder.js'
-import ImageChooser from '../../shared/image_chooser.js'
+import ImageChooser from '../image_chooser.js'
 import InfoBox from '../../shared/info-box/info-box.js'
 
 export default class StartPage extends BaseComponent {

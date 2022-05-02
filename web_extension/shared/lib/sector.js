@@ -46,7 +46,7 @@ export default class Sector {
   /* private */ debouncedBrowserStoragedChangedEvent(changedStorageAreas) {
     changedStorageAreas.forEach((changedArea) => {
       if (changedArea == this.storage_name) {
-        this.read().then(() => this.fireChangedCallbacks())
+        this.#read().then(() => this.fireChangedCallbacks())
       }
     })
   }
@@ -98,12 +98,12 @@ export default class Sector {
     if (this.fetchingPromise)
       return this.fetchingPromise
 
-    this.fetchingPromise = this.read()
+    this.fetchingPromise = this.#read()
     return this.fetchingPromise
   }
 
   // Read the configuration object from storage and hydrate object properties.
-  async /* private */ read () {
+  async #read () {
     const stored_options = await browser.storage[this.storage_area].get()
 
     this.populateWithConfig(stored_options)
