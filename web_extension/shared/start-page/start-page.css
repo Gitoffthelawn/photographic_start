@@ -24,12 +24,10 @@ prefetch {
 }
 
 prefetch img {
-  width: 10px;
-  height: 10px;
+  width: 100px;
+  height: 100px;
   margin-right: 25px;
-  opacity: 35%;
-  transition-duration: 800ms;
-  transition-property: opacity;
+  opacity: 85%;
   visibility: hidden;
 }
 
@@ -37,3 +35,9 @@ prefetch img:hover {
   opacity: 100%;
 }
 
+info-box {
+  position: absolute;
+  top: 0;
+  left: 2em;
+  z-index: 1;
+}

@@ -4,7 +4,6 @@ import Builder from '../../shared/lib/builder.js'
 import Storage from '../../shared/storage_manager.js'
 import StartPage from '../../shared/start-page/start-page.js'
 import SettingsPage from '../../shared/settings-page/settings-page.js'
-import InfoBox from '../../shared/info-box/info-box.js'
 import ImageChooser from '../../shared/image_chooser.js'
 import Version from '../../shared/version.js'
 
@@ -38,12 +37,10 @@ document.addEventListener('keydown',
   }
 );
 
-const info_box = document.querySelector('body').appendChild(Builder.tag('info-box'))
 const start_page = document.querySelector('body').appendChild(Builder.tag('start-page'))
 
 chooser.choose().then(image => {
   start_page.waitForReady(()=>{ start_page.image = image })
-  info_box.waitForReady(()=>{ info_box.image = image })
 })
 
 // Insert the version number
