@@ -10,7 +10,6 @@ export default class FeedOptions extends Sector {
     this.feed_url = null
     this.custom_feed_enabled = false
     this.default_feed_url = "https://start.photos/feed.json"
-    this.legacy_feed_url = "https://robacarp.github.io/photographic_start/feed.json"
 
     if (typeof window.sent_development_warning == "undefined")
       window.sent_development_warning = false
@@ -37,7 +36,7 @@ export default class FeedOptions extends Sector {
   }
 
   get searchUrls () {
-    const urls = [this.default_feed_url, this.legacy_feed_url]
+    const urls = [this.default_feed_url]
 
     if (this.custom_feed_enabled && this.custom_feed_url)
       urls.unshift(this.feed_url)
