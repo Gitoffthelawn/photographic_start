@@ -15,7 +15,9 @@ export default class InfoBox extends BaseComponent {
   }
 
   set image(image) {
-    this.showInfo(image)
+    this.waitForReady(() => {
+      this.showInfo(image)
+    })
   }
 
   readyCallback() {
@@ -136,11 +138,12 @@ export default class InfoBox extends BaseComponent {
       title = title.substring(0, a_space) + "..."
     }
 
+
     ['camera', 'by-line', 'name', 'venue'].forEach(selector => {
       this.shadowRoot.querySelector('info')
-              .querySelector(selector)
-              .querySelectorAll('*')
-              .forEach(element => element.remove())
+          .querySelector(selector)
+          .querySelectorAll('*')
+          .forEach(element => element.remove())
     })
 
     this.shadowRoot.querySelector('info name').appendChild(
