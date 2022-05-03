@@ -32,9 +32,14 @@ export default class StartPage extends BaseComponent {
   }
 
   async navigate(offset) {
-    // if moving forward in time, fetch an image from the cache and exit
-    if (offset > 0 && this.#history_offset == 0)
-      return this.#chooser.choose().then(image => this.image = image)
+    // Moving forward (fetching a new image on demand) is disabled for now
+    // because the logic which decides if it is time to fetch a new image lives
+    // far down in the cache and it needs to be moved in order for this
+    // feature to be usable.
+
+    // If moving forward in time, fetch an image from the cache and exit
+    // if (offset > 0 && this.#history_offset == 0)
+    //   return this.#chooser.choose().then(image => this.image = image)
 
     // If moving backwards, instead fetch an image from history
     await this.#chooser.sortHistory()

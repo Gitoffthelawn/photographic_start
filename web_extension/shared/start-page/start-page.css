@@ -27,7 +27,7 @@ prefetch img {
   width: 100px;
   height: 100px;
   margin-right: 25px;
-  opacity: 85%;
+  /* opacity: 85%; */
   visibility: hidden;
 }
 
