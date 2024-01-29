@@ -5,3 +5,5 @@ web_extension/manifest.json
 docs/_site
 docs/.jekyll-cache
 .env
+_site/
+.jekyll-cache
